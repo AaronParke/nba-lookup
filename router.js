@@ -27,9 +27,35 @@ router.get('/', function (req, res, next) {
 	res.send(response);
 });
 
-// Create a route for this, the data can be at a URL
-// As the user types in the search bar, query MySportsFeed for the input in players' names
-// Might need to parse in the search HTML in the request function to make sure the data is loaded first. also be sure to put next() in this function again
+// Route for JSON containing list of all player names and their id for link to their player pages
+// This is used by the autocomplete.js on the front end
+router.get('/player-names', function (req, res, next) {
+	
+	res.set('Content-Type', 'application/json');
+	response = '';	
+	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/active_players.json';
+	request(api_options, function(api_error, api_response, api_json) {
+		
+		if (!api_error && api_response.statusCode == 200) {
+			response += api_json;
+		} 
+
+		else {
+			if(api_response.statusCode) {
+				console.log(api_response.statusCode);
+			}
+			if(api_error) {
+				console.log(api_error);
+			}
+			response += 'It seems there was an error of some sort...';
+		}
+
+		// res.send() needs to be in the request callback so the page will wait on the data
+		response += footer_html;
+		res.send(response);
+	});
+});
+
 
 // Players returned from MySportsFeed need to be added to the dropdown list under the search bar
 	// Each tile should have a link around it. /player/{player_id}. Name could work too
@@ -59,7 +85,7 @@ router.get('/player/:player_id', function (req, res, next) {
 			response += 'It seems there was an error of some sort...';
 		}
 
-		// next() needs to be in the request callback so the page will wait on the data
+		// res.send() needs to be in the request callback so the page will wait on the data
 		response += footer_html;
 		res.send(response);
 	});

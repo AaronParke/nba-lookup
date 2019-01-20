@@ -2,10 +2,34 @@
 // This is based on their code here: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 var players = {
   one: {
-    name: "Lebron Jackson"
+    first: "Lebron",
+    last: "Jackson",
+    link:9158
   },
   two: {
-    name: "Lebron James"
+    first: "Lebron",
+    last: "James",
+    link:9158
+  },
+  three: {
+    first: "Jarret",
+    last: "Jones",
+    link:9158
+  },
+  four: {
+    first: "Steph",
+    last: "Curry",
+    link:9158
+  },
+  five: {
+    first: "Tre",
+    last: "Curry",
+    link:9158
+  },
+  six: {
+    first: "Tre",
+    last: "Tucker",
+    link:9158
   }
 };
 
@@ -29,17 +53,18 @@ function autocomplete(inp, arr) {
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
       for (player in players) {
-        console.log(players[player]);
-        console.log(typeof(players[player]));
-        /*check if the item starts with the same letters as the text field value:*/
-        if (players[player].name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+        var fullName = players[player].first + " " + players[player].last;
+        console.log(fullName);
+        // Check if the player's last name begins with the letters typed so far - last name takes priority
+        if (players[player].last.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
           /*create a DIV element for each matching element:*/
           b = document.createElement("DIV");
           /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + players[player].name.substr(0, val.length) + "</strong>";
-          b.innerHTML += players[player].name.substr(val.length);
+          b.innerHTML = players[player].first + " ";
+          b.innerHTML += "<strong>" + players[player].last.substr(0, val.length) + "</strong>";
+          b.innerHTML += players[player].last.substr(val.length);
           /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + players[player].name + "'>";
+          b.innerHTML += "<input type='hidden' value='" + players[player].first + " " + players[player].last + "'>";
           /*execute a function when someone clicks on the item value (DIV element):*/
               b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
@@ -48,9 +73,44 @@ function autocomplete(inp, arr) {
               (or any other open lists of autocompleted values:*/
               closeAllLists();
           });
+          b.setAttribute("class", "autocomplete-item");
+          b.setAttribute("data-link", "/player/" + players[player].link);
           a.appendChild(b);
-        }
+        } 
+        // If last name doesn't match the typing, check the full name (starting with first)
+        else if(fullName.toUpperCase().substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + fullName.substr(0, val.length) + "</strong>";
+          b.innerHTML += fullName.substr(val.length) + " ";
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + players[player].first + " " + players[player].last + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          b.setAttribute("class", "autocomplete-item");
+          b.setAttribute("data-link", "/player/" + players[player].link);
+          a.appendChild(b);
+        } 
       }
+
+      // When autocomplete list is generated, add click listeners on each item
+      // If clicked, navigate to the link for the player
+      var autocompleteItemArray = document.getElementsByClassName("autocomplete-item");
+      for (var i = 0; i < autocompleteItemArray.length; i++) {
+        autocompleteItemArray[i].addEventListener("click", function() {
+          console.log("entered");
+          console.log(this);
+          window.location.href = this.dataset.link;
+        });
+      }
+
   });
   /*execute a function presses a key on the keyboard:*/
   inp.addEventListener("keydown", function(e) {
@@ -99,14 +159,15 @@ function autocomplete(inp, arr) {
     var x = document.getElementsByClassName("autocomplete-items");
     for (var i = 0; i < x.length; i++) {
       if (elmnt != x[i] && elmnt != inp) {
-      x[i].parentNode.removeChild(x[i]);
+        x[i].parentNode.removeChild(x[i]);
+      }
     }
   }
-}
-/*execute a function when someone clicks in the document:*/
-document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
-});
+
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+    //closeAllLists(e.target);
+  });
 }
 
 autocomplete(document.getElementById("searchInput"), players);
