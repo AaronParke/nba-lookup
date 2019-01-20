@@ -1,6 +1,6 @@
 var fs = require("fs");
 
-// This function is from speigg on Stack Overflow
+// This function is from user speigg on Stack Overflow
 // https://stackoverflow.com/a/22129960/5577482
 // Because of this, the arrays in the data are referenced with . instead of []
 function resolve(path, obj=self, separator='.') {

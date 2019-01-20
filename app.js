@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const router = require('./router');
 
+// Setting up static directory - place all front-end resources in this folder
+app.use(express.static('public'));
+
 // Send all routes to the router.js file
 app.use('/', router);
 

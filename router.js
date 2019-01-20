@@ -15,30 +15,32 @@ var response = '';
 var header_html = template_reader.getHtml('header'),
 		footer_html = template_reader.getHtml('footer');
 
-// Set up response, add header HTML to response on any page
-router.use('/', function (req, res, next) {
-
-	response = '';
-	res.set('Content-Type', 'text/html');
-	response += header_html;
-	next();
-});
-
 
 // Route for /, which has a search bar to look up stats
 router.get('/', function (req, res, next) {
-	response += template_reader.getHtml('player-list');
-	next();
+	
+	res.set('Content-Type', 'text/html');
+	response = header_html;
+	//response += template_reader.getHtml('player-list');
+	response += template_reader.getHtml('search');
+	response += footer_html;
+	res.send(response);
 });
 
-// Clicking suggestion gets /player/{player_id}. Probably no search button, just suggestions?
+// Create a route for this, the data can be at a URL
+// As the user types in the search bar, query MySportsFeed for the input in players' names
+// Might need to parse in the search HTML in the request function to make sure the data is loaded first. also be sure to put next() in this function again
 
-// As typing in the search bar, suggest players
+// Players returned from MySportsFeed need to be added to the dropdown list under the search bar
+	// Each tile should have a link around it. /player/{player_id}. Name could work too
 
-	// To suggest, will need to return player names
+
 
 // Route for /player/{player_id}. Returns current season stats for one player based on the id passed as a param
 router.get('/player/:player_id', function (req, res, next) {
+
+	res.set('Content-Type', 'text/html');
+	response = header_html;
 
 	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json?player=' + req.params.player_id;
 	request(api_options, function(api_error, api_response, api_json) {
@@ -58,14 +60,10 @@ router.get('/player/:player_id', function (req, res, next) {
 		}
 
 		// next() needs to be in the request callback so the page will wait on the data
-		next();
+		response += footer_html;
+		res.send(response);
 	});
 });
 
-// Add footer HTML to response and send response on any page
-router.use('/', function (req, res, next) {
-	response += footer_html;
-	res.send(response);
-});
 
 module.exports = router;
