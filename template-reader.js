@@ -1,12 +1,5 @@
-var fs = require("fs");
-
-// This function is from user speigg on Stack Overflow
-// https://stackoverflow.com/a/22129960/5577482
-// Because of this, the arrays in the data are referenced with . instead of []
-function resolve(path, obj=self, separator='.') {
-    var properties = Array.isArray(path) ? path : path.split(separator)
-    return properties.reduce((prev, curr) => prev && prev[curr], obj)
-}
+const fs = require('fs');
+const resolve = require('./resolve.js');
 
 function populateValues(content, data_object) {
 	// Find all {}, which indicate values to replace, and add the values from the object

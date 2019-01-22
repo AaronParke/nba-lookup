@@ -1,12 +1,13 @@
 const router = require('express').Router();
 const template_reader = require('./template-reader.js');
 const request = require('request');
+const resolve = require('./resolve.js');
 
 // Use for all requests to MySportsFeed API for authorization
 const auth_header = require('./auth-header.js').authHeader;
 var api_options = {
-	headers: auth_header
-},
+		headers: auth_header
+	},
 	season = 'latest';
 
 // To store the full response
@@ -34,10 +35,13 @@ router.get('/player-names', function (req, res, next) {
 	res.set('Content-Type', 'application/json');
 	response = '';	
 	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/active_players.json';
-	request(api_options, function(api_error, api_response, api_json) {
-		
+	request(api_options, function(api_error, api_response, api_body) {
+		var api_json = JSON.parse(api_body);
 		if (!api_error && api_response.statusCode == 200) {
-			response += api_json;
+
+			var all_players = JSON.stringify(resolve('activeplayers.playerentry', api_json));
+			response += all_players;
+			//response += api_body;
 		} 
 
 		else {
@@ -49,9 +53,6 @@ router.get('/player-names', function (req, res, next) {
 			}
 			response += 'It seems there was an error of some sort...';
 		}
-
-		// res.send() needs to be in the request callback so the page will wait on the data
-		response += footer_html;
 		res.send(response);
 	});
 });
@@ -69,10 +70,10 @@ router.get('/player/:player_id', function (req, res, next) {
 	response = header_html;
 
 	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json?player=' + req.params.player_id;
-	request(api_options, function(api_error, api_response, api_json) {
-		
+	request(api_options, function(api_error, api_response, api_body) {
+		var api_json = JSON.parse(api_body);
 		if (!api_error && api_response.statusCode == 200) {
-			response += template_reader.getHtml('player', JSON.parse(api_json));
+			response += template_reader.getHtml('player', api_json);
 		} 
 
 		else {

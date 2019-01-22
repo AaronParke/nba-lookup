@@ -1,0 +1,11 @@
+.player-photo {
+	width: 350px;
+	height: 254px;
+	/*border-radius: 50%;*/
+}
+
+.player-photo.generic {
+	width: 250px;
+	height: 250px;
+	background-color: black;
+}
