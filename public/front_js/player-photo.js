@@ -2,8 +2,6 @@
 
 // The containerObject passed in should be a jQuery object of a .player-container - must be passed in success function of .load
 function getPlayerPhoto(containerObject) {
-	console.log('getPlayerPhoto run');
-	var playerContainers = $('.player-container');
 	//for(container in playerContainers) {
 	var imgTag = $(containerObject.find(".player-photo")),
 		imgRegex = /[^a-zA-Z0-9 ]/g,

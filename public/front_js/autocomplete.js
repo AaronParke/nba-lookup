@@ -37,9 +37,6 @@ function autocomplete(inp, arr) {
               b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
               inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
           });
           b.setAttribute("class", "autocomplete-item");
           b.setAttribute("data-link", "/player/" + playerId);
@@ -56,12 +53,9 @@ function autocomplete(inp, arr) {
           /*insert a input field that will hold the current array item's value:*/
           b.innerHTML += "<input type='hidden' value='" + fullName + "'>";
           /*execute a function when someone clicks on the item value (DIV element):*/
-              b.addEventListener("click", function(e) {
+          b.addEventListener("click", function(e) {
               /*insert the value for the autocomplete text field:*/
               inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
           });
           b.setAttribute("class", "autocomplete-item");
           b.setAttribute("data-link", "/player/" + playerId);
@@ -74,9 +68,12 @@ function autocomplete(inp, arr) {
       var autocompleteItemArray = document.getElementsByClassName("autocomplete-item");
       for (var i = 0; i < autocompleteItemArray.length; i++) {
         autocompleteItemArray[i].addEventListener("click", function() {
-          console.log("entered");
-          console.log(this);
-          window.location.href = this.dataset.link;
+          //parentContainer tracks which container this search was called from
+          var parentContainer = $(this).closest('.player-container');
+          // Fire function to load player HTML inside this player-container
+          loadPlayer(parentContainer, this.dataset.link);
+          //window.location.href = this.dataset.link;
+          //closeAllLists();
         });
       }
 

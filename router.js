@@ -67,18 +67,12 @@ router.get('/player-names', function (req, res, next) {
 	});
 });
 
-
-// Players returned from MySportsFeed need to be added to the dropdown list under the search bar
-	// Each tile should have a link around it. /player/{player_id}. Name could work too
-
-
-
-// Route for /player/{player_id}. Returns current season stats for one player based on the id passed as a param
+// Route for individual player HTML. Returns current season stats for one player based on the id passed as a param.
+// This is loaded by a front-end function, should already have header and footer on the page
 router.get('/player/:player_id', function (req, res, next) {
 
 	res.set('Content-Type', 'text/html');
-	response = header_html;
-	//response = '';
+	response = '';
 
 	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json?player=' + req.params.player_id;
 	request(api_options, function(api_error, api_response, api_body) {
@@ -98,7 +92,6 @@ router.get('/player/:player_id', function (req, res, next) {
 		}
 
 		// res.send() needs to be in the request callback so the page will wait on the data
-		response += footer_html;
 		res.send(response);
 	});
 });
