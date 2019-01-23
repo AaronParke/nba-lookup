@@ -28,6 +28,16 @@ router.get('/', function (req, res, next) {
 	res.send(response);
 });
 
+// Route for /, which has a search bar to look up stats
+router.get('/load-two-test', function (req, res, next) {
+	
+	res.set('Content-Type', 'text/html');
+	response = header_html;
+	response += template_reader.getHtml('load-two-test');
+	response += footer_html;
+	res.send(response);
+});
+
 // Route for JSON containing list of all player names and their id for link to their player pages
 // This is used by the autocomplete.js on the front end
 router.get('/player-names', function (req, res, next) {
@@ -68,6 +78,7 @@ router.get('/player/:player_id', function (req, res, next) {
 
 	res.set('Content-Type', 'text/html');
 	response = header_html;
+	//response = '';
 
 	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json?player=' + req.params.player_id;
 	request(api_options, function(api_error, api_response, api_body) {

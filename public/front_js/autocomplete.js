@@ -144,9 +144,11 @@ function autocomplete(inp, arr) {
 // To hold object from /player-names JSON
 var players;
 
-// Attempt to get the JSON from the route created by the back-end
+// If there is a search bar on the page, attempt to get the JSON from the route created by the back-end
 // If successful, run the autocomplete function on the search bar
-$.getJSON("././player-names", function(result,status) {
-  players = result;
-  autocomplete(document.getElementById("searchInput"), players);
-});
+if(document.getElementById("searchInput") != undefined) {
+  $.getJSON("././player-names", function(result,status) {
+    players = result;
+    autocomplete(document.getElementById("searchInput"), players);
+  });
+}
