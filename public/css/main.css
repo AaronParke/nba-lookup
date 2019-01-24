@@ -1,3 +1,11 @@
+.header, .footer {
+	background-color: #CCC;
+}
+
+.body {
+	margin: 30px 0px 30px 0px;
+}
+
 .player-photo {
 	width: 350px;
 	height: 254px;

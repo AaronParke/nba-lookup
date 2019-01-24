@@ -129,23 +129,33 @@ function autocomplete(inp, arr) {
       }
     }
   }
-
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-    //closeAllLists(e.target);
-  });
 }
-
 
 
 // To hold object from /player-names JSON
 var players;
-
-// If there is a search bar on the page, attempt to get the JSON from the route created by the back-end
+// For any search bars on the page, attempt to get the JSON from the route created by the back-end
 // If successful, run the autocomplete function on the search bar
-if(document.getElementById("searchInput") != undefined) {
+var searchInputs = $('.search-input');
+
+if(searchInputs.length > 0) {
+  //if(document.getElementById("searchInput") != undefined) {
   $.getJSON("././player-names", function(result,status) {
     players = result;
-    autocomplete(document.getElementById("searchInput"), players);
+    searchInputs.each(function() {
+      autocomplete($(this).context, players);
+    });
   });
 }
+
+
+/*if(searchInputs.length > 0) {
+  //if(document.getElementById("searchInput") != undefined) {
+  $.getJSON("././player-names", function(result,status) {
+    players = result;
+    for (searchInput in searchInputs) {
+      console.log(searchInputs[searchInput]);
+      autocomplete(searchInputs[searchInput], players);
+    }
+  });
+}*/

@@ -22,8 +22,8 @@ router.get('/', function (req, res, next) {
 	
 	res.set('Content-Type', 'text/html');
 	response = header_html;
-	//response += template_reader.getHtml('player-list');
-	response += template_reader.getHtml('search');
+	//response += template_reader.getHtml('search');
+	response += template_reader.getHtml('search-two');
 	response += footer_html;
 	res.send(response);
 });
