@@ -8,8 +8,9 @@ function populateValues(content, data_object) {
 
 	if (tag_open > -1 && tag_close > -1) {
 		// Get the name of the property to replace with a value. Most are nested which is why resolve() is used
-		var property_name = content.slice((tag_open + 1), tag_close);
-		content = content.replace('{' + property_name.toString() + '}', resolve(property_name, data_object));
+		var property_name = content.slice((tag_open + 1), tag_close),
+		property_value = resolve(property_name, data_object) || '';
+		content = content.replace('{' + property_name.toString() + '}', property_value);
 		
 		// Run it again for the next property
 		return populateValues(content, data_object);
