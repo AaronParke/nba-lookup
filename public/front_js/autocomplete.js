@@ -15,7 +15,7 @@ function autocomplete(inp, arr) {
       /*create a DIV element that will contain the items (values):*/
       a = document.createElement("DIV");
       a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
+      a.setAttribute("class", "autocomplete-items text-left");
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
@@ -131,11 +131,18 @@ function autocomplete(inp, arr) {
   }
 }
 
+function addAutocomplete (searchInputs) {
+  searchInputs = $('.search-input');
+  searchInputs.each(function() {
+    autocomplete($(this).context, players);
+  });
+}
 
 // To hold object from /player-names JSON
 var players;
 // For any search bars on the page, attempt to get the JSON from the route created by the back-end
 // If successful, run the autocomplete function on the search bar
+// This initialization handles the first load, for new search bars call addAutocomplete
 var searchInputs = $('.search-input');
 
 if(searchInputs.length > 0) {

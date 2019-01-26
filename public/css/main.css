@@ -17,3 +17,13 @@
 	height: 250px;
 	background-color: black;
 }
+
+.player-stats {
+	width: 300px;
+	margin: 0 auto;
+}
+
+.player-stats-left {
+	width: 100%;
+	padding-right: 20px;
+}
