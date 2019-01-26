@@ -17,24 +17,19 @@ var header_html = template_reader.getHtml('header'),
 		footer_html = template_reader.getHtml('footer');
 
 
-// Route for /, which has a search bar to look up stats
+// Route for /, which starts with one search bar
 router.get('/', function (req, res, next) {
-	
 	res.set('Content-Type', 'text/html');
 	response = header_html;
-	//response += template_reader.getHtml('search');
-	response += template_reader.getHtml('search-two');
+	response += template_reader.getHtml('search');
+	//response += template_reader.getHtml('search-two');
 	response += footer_html;
 	res.send(response);
 });
 
-// Route for /, which has a search bar to look up stats
-router.get('/load-two-test', function (req, res, next) {
-	
+router.get('/search', function (req, res, next) {
 	res.set('Content-Type', 'text/html');
-	response = header_html;
-	response += template_reader.getHtml('load-two-test');
-	response += footer_html;
+	response = template_reader.getHtml('search');
 	res.send(response);
 });
 
@@ -44,14 +39,13 @@ router.get('/player-names', function (req, res, next) {
 	
 	res.set('Content-Type', 'application/json');
 	response = '';	
-	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/active_players.json';
+	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json';
 	request(api_options, function(api_error, api_response, api_body) {
 		var api_json = JSON.parse(api_body);
+		
 		if (!api_error && api_response.statusCode == 200) {
-
-			var all_players = JSON.stringify(resolve('activeplayers.playerentry', api_json));
+			var all_players = JSON.stringify(resolve('cumulativeplayerstats.playerstatsentry', api_json));
 			response += all_players;
-			//response += api_body;
 		} 
 
 		else {

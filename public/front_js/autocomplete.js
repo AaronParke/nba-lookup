@@ -147,15 +147,3 @@ if(searchInputs.length > 0) {
     });
   });
 }
-
-
-/*if(searchInputs.length > 0) {
-  //if(document.getElementById("searchInput") != undefined) {
-  $.getJSON("././player-names", function(result,status) {
-    players = result;
-    for (searchInput in searchInputs) {
-      console.log(searchInputs[searchInput]);
-      autocomplete(searchInputs[searchInput], players);
-    }
-  });
-}*/
