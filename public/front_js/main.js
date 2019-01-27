@@ -37,6 +37,7 @@ function loadPlayer(playerContainer, playerLink) {
 			// Get photo for the .player-container element that replaced the one passed into loadPlayer
 			// Photo must be loaded in $.get() callback
 			getPlayerPhoto($(allContainers[containerIndex]));
+			comparePlayerStats();
   	});
 	} else {
 		$.get(playerLink + '/right', function(data) {
@@ -46,6 +47,7 @@ function loadPlayer(playerContainer, playerLink) {
 			// Get photo for the .player-container element that replaced the one passed into loadPlayer
 			// Photo must be loaded in $.get() callback
 			getPlayerPhoto($(allContainers[containerIndex]));
+			comparePlayerStats();
   	});
 	}
 }
@@ -72,6 +74,7 @@ $(document).on("click", ".switch-player", function() {
   	parentContainer = parentContainer.replaceWith(data);
   	addAutocomplete();
   	parentContainer.toggleClass("col-sm-12 col-sm-6");
+  	removeCompareStats();
   });
 });
 
@@ -104,3 +107,26 @@ function getPlayerPhoto(containerObject) {
 }
 
 // Text styling for two players being compared
+function comparePlayerStats() {
+	var firstPlayerStats = $(document).find(".player-stats-left").find('.stat-value');
+	var secondPlayerStats = $(document).find(".player-stats-right").find('.stat-value');
+	// Only proceed if stats are being displayedfor two players
+	if(firstPlayerStats.length > 0 && secondPlayerStats.length > 0) {
+		for(var i = 0; i < firstPlayerStats.length; i++) {
+			console.log(parseFloat($(firstPlayerStats[i]).text()));
+			if(parseFloat($(firstPlayerStats[i]).text()) > parseFloat($(secondPlayerStats[i]).text())) {
+				console.log("first player better on this number");
+				$(firstPlayerStats[i]).addClass("better-number");
+			} else if(parseFloat($(firstPlayerStats[i]).text()) < parseFloat($(secondPlayerStats[i]).text())) {
+				$(secondPlayerStats[i]).addClass("better-number");
+			}
+		}
+	}
+}
+
+function removeCompareStats() {
+	console.log('remove fired');
+	$(document).find(".better-number").each(function() {
+		$(this).removeClass("better-number");
+	});
+}
