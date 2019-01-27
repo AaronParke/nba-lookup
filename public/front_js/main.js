@@ -50,8 +50,6 @@ function loadPlayer(playerContainer, playerLink) {
 	}
 }
 
-// Function to bold the player with the better number in each category?
-
 // Add a click handler for #compare-player, which is only on the first player loaded and is removed after another search is added
 $(document).on("click", "#compare-player", function() {
 	// Switch classes to move the first container to the left
@@ -104,3 +102,5 @@ function getPlayerPhoto(containerObject) {
 		}
 	}
 }
+
+// Text styling for two players being compared

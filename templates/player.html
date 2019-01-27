@@ -1,15 +1,18 @@
 <div class="player-container col-sm-12 text-center">
 	<img class="player-photo generic" src="/img/mystery-player.png"/>
-	<div class="player-stats text-left">
+	<div class="player-stats player-stats-center text-left">
 		<h3><span class="player-first-name">{cumulativeplayerstats.playerstatsentry.0.player.FirstName}</span> <span class="player-last-name">{cumulativeplayerstats.playerstatsentry.0.player.LastName}</span></h3>
 		<h4>{cumulativeplayerstats.playerstatsentry.0.team.City} {cumulativeplayerstats.playerstatsentry.0.team.Name}</h4>
 		<h5>#{cumulativeplayerstats.playerstatsentry.0.player.JerseyNumber} {cumulativeplayerstats.playerstatsentry.0.player.Position}</h5>
-		{cumulativeplayerstats.playerstatsentry.0.stats.PtsPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.PtsPerGame.#text}<br/>
-		{cumulativeplayerstats.playerstatsentry.0.stats.AstPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.AstPerGame.#text}<br/>
-		{cumulativeplayerstats.playerstatsentry.0.stats.RebPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.RebPerGame.#text}<br/>
-		{cumulativeplayerstats.playerstatsentry.0.stats.PlusMinus.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.PlusMinus.#text}<br/>
-		{cumulativeplayerstats.playerstatsentry.0.stats.StlPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.StlPerGame.#text}<br/>
-		{cumulativeplayerstats.playerstatsentry.0.stats.BlkPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.BlkPerGame.#text}<br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.PtsPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.PtsPerGame.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.AstPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.AstPerGame.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.RebPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.RebPerGame.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.StlPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.StlPerGame.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.BlkPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.BlkPerGame.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.PlusMinusPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.PlusMinusPerGame.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.FgPct.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.FgPct.#text}</span><br/>
+		<span class="stat-category">{cumulativeplayerstats.playerstatsentry.0.stats.MinSecondsPerGame.@abbreviation}</span>: <span class="stat-value">{cumulativeplayerstats.playerstatsentry.0.stats.MinSecondsPerGame.#text}</span><br/>
+		
 		<br/>
 		<a href="/" class="btn btn-info new-search">New search</a> <a class="btn btn-info" id="compare-player">Compare player</a> 
 	</div>

@@ -18,7 +18,7 @@
 	background-color: black;
 }
 
-.player-stats {
+.player-stats-center {
 	width: 300px;
 	margin: 0 auto;
 }
@@ -31,4 +31,24 @@
 .player-stats-right {
 	width: 100%;
 	padding-left: 20px;
+}
+
+.player-stats {
+	font-size: 16px;
+}
+
+.player-stats h3 {
+	font-size: 28px;
+}
+
+.player-stats h4 {
+	font-size: 22px;
+}
+
+.player-stats h5 {
+	font-size: 20px;
+}
+
+.stat-category {
+	font-weight: 500;
 }
