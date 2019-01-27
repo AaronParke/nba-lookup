@@ -1,6 +1,6 @@
-<div class="player-container col-sm-12 text-center">
+<div class="player-container col-sm-6 text-left">
 	<img class="player-photo generic" src="/img/mystery-player.png"/>
-	<div class="player-stats text-left">
+	<div class="player-stats-right">
 		<h3><span class="player-first-name">{cumulativeplayerstats.playerstatsentry.0.player.FirstName}</span> <span class="player-last-name">{cumulativeplayerstats.playerstatsentry.0.player.LastName}</span></h3>
 		<h4>{cumulativeplayerstats.playerstatsentry.0.team.City} {cumulativeplayerstats.playerstatsentry.0.team.Name}</h4>
 		<h5>#{cumulativeplayerstats.playerstatsentry.0.player.JerseyNumber} {cumulativeplayerstats.playerstatsentry.0.player.Position}</h5>
@@ -11,6 +11,6 @@
 		{cumulativeplayerstats.playerstatsentry.0.stats.StlPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.StlPerGame.#text}<br/>
 		{cumulativeplayerstats.playerstatsentry.0.stats.BlkPerGame.@abbreviation}: {cumulativeplayerstats.playerstatsentry.0.stats.BlkPerGame.#text}<br/>
 		<br/>
-		<a href="/" class="btn btn-info new-search">New search</a> <a class="btn btn-info" id="compare-player">Compare player</a> 
+		<a href="/" class="btn btn-info new-search">New search</a> <a class="btn btn-info switch-player">Switch player</a> 
 	</div>
 </div>

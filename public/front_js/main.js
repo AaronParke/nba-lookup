@@ -1,62 +1,86 @@
-var playersLoaded = 0,
-		compareButtonHtml = '<a class="btn btn-info" id="compare-button">Compare player</a>',
-		switchButtonHtml = '<a class="btn btn-info switch-player">Switch player</a>';
+// This is to store which player is loaded first. When the second player search is added, this link is re-loaded in the player-left template, it starts as just player
+var firstPlayerLink = '';
 
 // Initialize .player-container/search input class - should only be full width on the first search
 $(".player-container").toggleClass("col-sm-6 col-sm-12");
 
-// Reset when a new search is started, including playersOnScreen = 0. Actually may not be necessary if the page just reloads
-
-// playerContainer should be passed from the autocomplete click - it should contain a div with class... player-container
+// playerContainer should be passed from the autocomplete click - it should be an object for a div element with class... player-container
+// There are 3 player HTML templates - player, player-left, and player-right. Player is only used until "Compare player" is clicked
+// After that, left or right is loaded depending on which side the search bar that is loading the player was on
 function loadPlayer(playerContainer, playerLink) {
-	$(playerContainer).load(playerLink, function() {
-		getPlayerPhoto($(this));
-		playersLoaded++;
-		if(playersLoaded == 1) {
-			// Only on first player load, swap the Switch button for a Compare button
-			$(".switch-player").after(compareButtonHtml).remove();
-			// The second player should also be loaded with a .switch-player button
-			// Function to bold the player with the better number in each category?
-		}
-		console.log("loadPlayer fired");
+
+	// Check if this is the first or second player-container on the page and store index, since we are replacing the search HTML with the player HTML
+	// When the switch is made the reference to the element is lost. With the index the new container element can be retrieved
+	var containerIndex = $('.player-container').index(playerContainer),
+			parentElement = playerContainer.parent();
+	
+	var allContainers = $(parentElement).find('.player-container');
+	if(allContainers.length == 1) {
+		// On the first player load, get the centered version of the template
+		$.get(playerLink, function(data) {
+			playerContainer.replaceWith(data);
+			// Re-calculate allContainers - it now has the new element added with replaceWith()
+			allContainers = $(parentElement).find('.player-container');
+			// Get photo for the .player-container element that replaced the one passed into loadPlayer
+			// Photo must be loaded in $.get() callback
+			getPlayerPhoto($(allContainers[containerIndex]));
+  	});
+
+		// Store this for #compare-player click
+		firstPlayerLink = playerLink;
 		
-	});
+	} else if(containerIndex == 0) {
+		$.get(playerLink + '/left', function(data) {
+			playerContainer.replaceWith(data);
+			// Re-calculate allContainers - it now has the new element added with replaceWith()
+			allContainers = $(parentElement).find('.player-container');
+			// Get photo for the .player-container element that replaced the one passed into loadPlayer
+			// Photo must be loaded in $.get() callback
+			getPlayerPhoto($(allContainers[containerIndex]));
+  	});
+	} else {
+		$.get(playerLink + '/right', function(data) {
+			playerContainer.replaceWith(data);
+			// Re-calculate allContainers - it now has the new element added with replaceWith()
+			allContainers = $(parentElement).find('.player-container');
+			// Get photo for the .player-container element that replaced the one passed into loadPlayer
+			// Photo must be loaded in $.get() callback
+			getPlayerPhoto($(allContainers[containerIndex]));
+  	});
+	}
 }
 
-// Add a click handler for #compare-button.
-$(document).on("click", "#compare-button", function() {
-	console.log("compare-button click fired");
-	// This should call a function to move the player info to the left
-	var parentContainer = $(this).closest(".player-container");
-  parentContainer.toggleClass("col-sm-6 text-right col-sm-12 text-center");
-  $(this).closest(".player-stats").toggleClass("player-stats text-left player-stats-left");
-  //switch the compare button for a .switch-player button
-  $(this).after(switchButtonHtml);
-  $(this).remove();
+// Function to bold the player with the better number in each category?
 
-  //add a search
+// Add a click handler for #compare-player, which is only on the first player loaded and is removed after another search is added
+$(document).on("click", "#compare-player", function() {
+	// Switch classes to move the first container to the left
+	var parentContainer = $(this).closest(".player-container");
+
+  // Add a search, new container is included in this
   $.get("./search", function(data) {
   	parentContainer.after(data);
   	addAutocomplete();
+
+  	// Load the first player again, but with the left template since there are now two containers
+  	loadPlayer(parentContainer, firstPlayerLink);
   });
 });
 
 // Add listener to .switch-player buttons to replace player with search
 $(document).on("click", ".switch-player", function() {
-	console.log("switch-player click fired");
 	var parentContainer = $(this).closest(".player-container");
 	$.get("./search", function(data) {
   	parentContainer = parentContainer.replaceWith(data);
   	addAutocomplete();
   	parentContainer.toggleClass("col-sm-12 col-sm-6");
-  	console.log(parentContainer);
   });
 });
 
 // Images courtesy of https://nba-players.herokuapp.com. Images are from the previous season so not all players will have an image
 // The containerObject passed in should be a jQuery object of a .player-container - must be passed in success function of .load
 function getPlayerPhoto(containerObject) {
-	var imgTag = $(containerObject.find(".player-photo")),
+	var imgTag = $(containerObject.find(".player-photo.generic")),
 		imgRegex = /[^a-zA-Z0-9 ]/g,
 		playerFirstName = cleanName($(containerObject.find(".player-first-name")).text()),
 		playerLastName = cleanName(containerObject.find(".player-last-name").text()),

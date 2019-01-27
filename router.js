@@ -63,7 +63,7 @@ router.get('/player-names', function (req, res, next) {
 
 // Route for individual player HTML. Returns current season stats for one player based on the id passed as a param.
 // This is loaded by a front-end function, should already have header and footer on the page
-router.get('/player/:player_id', function (req, res, next) {
+router.get(['/player/:player_id', '/player/:player_id/:side'], function (req, res, next) {
 
 	res.set('Content-Type', 'text/html');
 	response = '';
@@ -72,7 +72,13 @@ router.get('/player/:player_id', function (req, res, next) {
 	request(api_options, function(api_error, api_response, api_body) {
 		var api_json = JSON.parse(api_body);
 		if (!api_error && api_response.statusCode == 200) {
-			response += template_reader.getHtml('player', api_json);
+			if(req.params.side == "left") {
+				response += template_reader.getHtml('player-left', api_json);
+			} else if(req.params.side == "right") {
+				response += template_reader.getHtml('player-right', api_json);
+			} else {
+				response += template_reader.getHtml('player', api_json);
+			}
 		} 
 
 		else {
