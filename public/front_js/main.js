@@ -2,7 +2,7 @@
 var firstPlayerLink = '';
 
 // Initialize .player-container/search input class - should only be full width on the first search
-$(".player-container").toggleClass("col-sm-6 col-sm-12");
+$(".player-container").toggleClass("col-xs-6 col-xs-12");
 
 // playerContainer should be passed from the autocomplete click - it should be an object for a div element with class... player-container
 // There are 3 player HTML templates - player, player-left, and player-right. Player is only used until "Compare player" is clicked
@@ -19,7 +19,7 @@ function loadPlayer(playerContainer, playerLink) {
 		// On the first player load, get the centered version of the template
 		$.get(playerLink, function(data) {
 			playerContainer.replaceWith(data);
-			// Re-calculate allContainers - it now has the new element added with replaceWith()
+			// Re-calculate allContainers so it has the new element added by replaceWith()
 			allContainers = $(parentElement).find('.player-container');
 			// Get photo for the .player-container element that replaced the one passed into loadPlayer
 			// Photo must be loaded in $.get() callback
@@ -32,7 +32,7 @@ function loadPlayer(playerContainer, playerLink) {
 	} else if(containerIndex == 0) {
 		$.get(playerLink + '/left', function(data) {
 			playerContainer.replaceWith(data);
-			// Re-calculate allContainers - it now has the new element added with replaceWith()
+			// Re-calculate allContainers so it has the new element added by replaceWith()
 			allContainers = $(parentElement).find('.player-container');
 			// Get photo for the .player-container element that replaced the one passed into loadPlayer
 			// Photo must be loaded in $.get() callback
@@ -42,12 +42,13 @@ function loadPlayer(playerContainer, playerLink) {
 	} else {
 		$.get(playerLink + '/right', function(data) {
 			playerContainer.replaceWith(data);
-			// Re-calculate allContainers - it now has the new element added with replaceWith()
+			// Re-calculate allContainers so it has the new element added by replaceWith()
 			allContainers = $(parentElement).find('.player-container');
 			// Get photo for the .player-container element that replaced the one passed into loadPlayer
 			// Photo must be loaded in $.get() callback
 			getPlayerPhoto($(allContainers[containerIndex]));
 			comparePlayerStats();
+			setStatsHeights()
   	});
 	}
 }
@@ -113,9 +114,7 @@ function comparePlayerStats() {
 	// Only proceed if stats are being displayedfor two players
 	if(firstPlayerStats.length > 0 && secondPlayerStats.length > 0) {
 		for(var i = 0; i < firstPlayerStats.length; i++) {
-			console.log(parseFloat($(firstPlayerStats[i]).text()));
 			if(parseFloat($(firstPlayerStats[i]).text()) > parseFloat($(secondPlayerStats[i]).text())) {
-				console.log("first player better on this number");
 				$(firstPlayerStats[i]).addClass("better-number");
 			} else if(parseFloat($(firstPlayerStats[i]).text()) < parseFloat($(secondPlayerStats[i]).text())) {
 				$(secondPlayerStats[i]).addClass("better-number");
@@ -125,8 +124,31 @@ function comparePlayerStats() {
 }
 
 function removeCompareStats() {
-	console.log('remove fired');
 	$(document).find(".better-number").each(function() {
 		$(this).removeClass("better-number");
 	});
+}
+
+$(window).resize(function() {
+  setStatsHeights();
+});
+
+// Setting elements of .player-stats equal to each other. They can be different based on how many characters are there
+function setStatsHeights() {
+	var statsDivs = $(document).find(".player-stats");
+  if(statsDivs.length > 1) {
+  	var firstStats = $(statsDivs[0]),
+  				secondStats = $(statsDivs[1]);
+  	if($(statsDivs[0]).height() != $(statsDivs[1]).height()) {
+  		console.log($(firstStats.children()));
+  		console.log(firstStats.children().length);
+  		for(var element = 0;  element < firstStats.children().length; element++) {
+  			if($(firstStats.children()[element]).height() > $(secondStats.children()[element]).height()) {
+  				$(secondStats.children()[element]).height($(firstStats.children()[element]).height());
+  			} else if($(secondStats.children()[element]).height() > $(firstStats.children()[element]).height()) {
+  				$(firstStats.children()[element]).height($(secondStats.children()[element]).height());
+  			}
+  		}
+  	}
+  }
 }

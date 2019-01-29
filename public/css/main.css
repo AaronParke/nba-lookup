@@ -7,14 +7,11 @@
 }
 
 .player-photo {
-	width: 350px;
-	height: 254px;
-	/*border-radius: 50%;*/
+	max-width: 350px;
+	width: 100%;
 }
 
 .player-photo.generic {
-	width: 250px;
-	height: 250px;
 	background-color: black;
 }
 
@@ -47,6 +44,10 @@
 
 .player-stats h5 {
 	font-size: 20px;
+}
+
+.player-stats span {
+	word-wrap: break-word;
 }
 
 .stat-category {
