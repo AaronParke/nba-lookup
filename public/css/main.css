@@ -1,9 +1,64 @@
-.header, .footer {
-	background-color: #CCC;
+html, body{
+  padding: 0;
+  margin: 0;
+}
+html{
+  height: 100%;
+}
+body{
+  min-height: 100%;
 }
 
-.body {
-	margin: 30px 0px 30px 0px;
+.page-container {
+  min-height: 100%;
+  position:relative;
+  overflow-y: auto;
+}
+
+.header, .footer {
+	background-color: #DDD;
+}
+
+.header {
+	padding: 0px 40px 0px 40px;
+}
+
+.footer {
+	height: 100px; 
+  width:100%;
+  position: absolute;
+  left: 0;
+  bottom: 0; 
+}
+
+.content {
+	margin: 10px 0px 30px 0px;
+	padding-bottom: 100px;    /* height of footer */
+}
+
+.footer-text {
+	font-size: 18px;
+	padding-top: 20px
+}
+
+.header h1 {
+	margin-top: 0px;
+	text-align: center;
+	font-size: 40px;
+}
+
+.logo-img {
+	max-width: 150px;
+	width: 100%;
+	display: block;
+	margin: 0 auto;
+}
+
+
+
+/* Most of the player images have some built-in padding in the image */
+.player-container form {
+	margin-top: 20px;
 }
 
 .player-photo {
@@ -62,4 +117,28 @@
 .better-number {
 	color: green;
 	font-weight: 600;
+}
+
+.btn {
+	margin-bottom: 10px;
+}
+
+/* Bootstrap small */
+@media (min-width: 576px) { 
+
+}
+
+/* Bootstrap medium */
+@media (min-width: 768px) {
+	.header h1 {
+		padding-top: 48px;
+		text-align: right;
+		font-size: 44px;
+	}
+
+	.logo-img {
+		text-align: left;
+		margin: 0;
+		max-width: 200px;
+	}
 }
