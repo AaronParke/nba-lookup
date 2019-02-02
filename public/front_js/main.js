@@ -38,6 +38,7 @@ function loadPlayer(playerContainer, playerLink) {
 			// Photo must be loaded in $.get() callback
 			getPlayerPhoto($(allContainers[containerIndex]));
 			comparePlayerStats();
+			setStatsHeights();
   	});
 	} else {
 		$.get(playerLink + '/right', function(data) {
@@ -48,7 +49,7 @@ function loadPlayer(playerContainer, playerLink) {
 			// Photo must be loaded in $.get() callback
 			getPlayerPhoto($(allContainers[containerIndex]));
 			comparePlayerStats();
-			setStatsHeights()
+			setStatsHeights();
   	});
 	}
 }
@@ -96,7 +97,12 @@ function getPlayerPhoto(containerObject) {
 
 	if(playerFirstName != undefined && playerLastName != undefined) {
 		var img = new Image();
-		imgUrl = "https://nba-players.herokuapp.com/players/" + playerLastName + "/" + playerFirstName;
+		if(playerFirstName == "Aaron" && playerLastName == "Parke") {
+			imgUrl = "img/parke.png"
+		}
+		else {
+			imgUrl = "https://nba-players.herokuapp.com/players/" + playerLastName + "/" + playerFirstName;
+		}
 		img.src = imgUrl;
 		// Check if there's an actual image for the player
 		// Players in their first season and some other cases don't have images
@@ -140,8 +146,6 @@ function setStatsHeights() {
   	var firstStats = $(statsDivs[0]),
   				secondStats = $(statsDivs[1]);
   	if($(statsDivs[0]).height() != $(statsDivs[1]).height()) {
-  		console.log($(firstStats.children()));
-  		console.log(firstStats.children().length);
   		for(var element = 0;  element < firstStats.children().length; element++) {
   			if($(firstStats.children()[element]).height() > $(secondStats.children()[element]).height()) {
   				$(secondStats.children()[element]).height($(firstStats.children()[element]).height());
