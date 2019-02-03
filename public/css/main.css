@@ -65,6 +65,10 @@ body{
 	text-align: center;
 }
 
+.autocomplete {
+	width: 100%;
+}
+
 
 /* Most of the player images have some built-in padding in the image */
 .player-container form {

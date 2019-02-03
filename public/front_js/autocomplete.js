@@ -4,6 +4,8 @@
 function autocomplete(inp, arr) {
   /*the autocomplete function takes two arguments,
   the text field element and an array of possible autocompleted values:*/
+  // In this case it's an array of objects
+
   var currentFocus;
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
@@ -22,7 +24,7 @@ function autocomplete(inp, arr) {
       for (player in players) {
         // Check for an error returned from the back-end, meaning players weren't loaded
         if(players[player].error != undefined) {
-          /*create a DIV element to display error message:*/
+          // Create a DIV element to display error message:
           b = document.createElement("DIV");
           b.innerHTML = players[player].error.message;
           a.appendChild(b);

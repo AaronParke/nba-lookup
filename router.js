@@ -11,20 +11,13 @@ var api_options = {
 	},
 	season = 'latest';
 
-// To store the full response
-var response = '';
-// Store re-used HTML to cut down load time
-var header_html = template_reader.getHtml('header'),
-		footer_html = template_reader.getHtml('footer');
-
-
-// Route for /, which starts with one search bar
+// Route for home. The page never reloads but loads other routes onto the page
 router.get('/', function (req, res, next) {
 	res.set('Content-Type', 'text/html');
-	response = header_html;
+	response = template_reader.getHtml('header');
 	response += template_reader.getHtml('search');
 	response += template_reader.getHtml('summary');
-	response += footer_html;
+	response += template_reader.getHtml('footer');
 	res.send(response);
 });
 
@@ -34,7 +27,7 @@ router.get('/search', function (req, res, next) {
 	res.send(response);
 });
 
-// Route for JSON containing list of all player names and their id for link to their player pages
+// Route for JSON object containing all current players. The front end needs names and ids which are a few layers dep in the object
 // This is used by the autocomplete.js on the front end
 router.get('/player-names', function (req, res, next) {
 	
@@ -42,11 +35,10 @@ router.get('/player-names', function (req, res, next) {
 	response = '';	
 	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json';
 	request(api_options, function(api_error, api_response, api_body) {
-		var api_json = JSON.parse(api_body);
-
-		api_json.cumulativeplayerstats.playerstatsentry.push(parke_json.autocomplete);
-
+		
 		if (!api_error && api_response.statusCode == 200) {
+			var api_json = JSON.parse(api_body);
+			api_json.cumulativeplayerstats.playerstatsentry.push(parke_json.autocomplete);
 			var all_players = JSON.stringify(resolve('cumulativeplayerstats.playerstatsentry', api_json));
 			response += all_players;
 		} 
@@ -66,56 +58,68 @@ router.get('/player-names', function (req, res, next) {
 });
 
 // Route for individual player HTML. Returns current season stats for one player based on the id passed as a param.
-// This is loaded by a front-end function, should already have header and footer on the page
+// This is loaded into a .player-container, which can be either one large container if it's the first player searched, 
+// or on the left or right if two players are being compared. There are different templates for each
 router.get(['/player/:player_id', '/player/:player_id/:side'], function (req, res, next) {
 
 	res.set('Content-Type', 'text/html');
 	response = '';
 	
-	api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json?player=' + req.params.player_id;
-	
-	request(api_options, function(api_error, api_response, api_body) {
-		var api_json = JSON.parse(api_body);
-		// Make sure there is data. MySportsFeed will return an object even if the link is invalid
-		var contains_player_data = resolve('cumulativeplayerstats.playerstatsentry', api_json) || false;
-
-		if (!api_error && api_response.statusCode == 200 && contains_player_data) {
-			if(req.params.side == 'left') {
-				response += template_reader.getHtml('player-left', api_json);
-			} else if(req.params.side == 'right') {
-				response += template_reader.getHtml('player-right', api_json);
-			} else {
-				response += template_reader.getHtml('player', api_json);
-			}
-		} 
-
-		else if(req.params.player_id == "parke") {
-			if(req.params.side == 'left') {
-				response += template_reader.getHtml('player-left', parke_json);
-			} else if(req.params.side == 'right') {
-				response += template_reader.getHtml('player-right', parke_json);
-			} else {
-				response += template_reader.getHtml('player', parke_json);
-			}
+	if(req.params.player_id == "parke") {
+		if(req.params.side == 'left') {
+			response += template_reader.getHtml('player-left', parke_json);
+		} else if(req.params.side == 'right') {
+			response += template_reader.getHtml('player-right', parke_json);
+		} else {
+			response += template_reader.getHtml('player', parke_json);
 		}
-
-		else {
-			if(api_response.statusCode) {
-				console.log(api_response.statusCode);
-			}
-			if(api_error) {
-				console.log(api_error);
-			}
-			if(req.params.side == 'left' || req.params.side == 'right') {
-				response += template_reader.getHtml('error-side');
-			} else {
-				response += template_reader.getHtml('error');
-			}
-		}
-
-		// res.send() needs to be in the request callback so the page will wait on the data
 		res.send(response);
-	});
+	}
+	else {
+		api_options.url = 'https://api.mysportsfeeds.com/v1.0/pull/nba/'+ season +'/cumulative_player_stats.json?player=' + req.params.player_id;
+	
+		request(api_options, function(api_error, api_response, api_body) {
+
+			if (!api_error && api_response.statusCode == 200) {
+				var api_json = JSON.parse(api_body);
+				// Make sure there's data. MySportsFeed will return an object even if the link is invalid
+				var contains_player_data = resolve('cumulativeplayerstats.playerstatsentry', api_json);
+
+				if(contains_player_data) {
+					if(req.params.side == 'left') {
+						response += template_reader.getHtml('player-left', api_json);
+					} else if(req.params.side == 'right') {
+						response += template_reader.getHtml('player-right', api_json);
+					} else {
+						response += template_reader.getHtml('player', api_json);
+					}
+				} else {
+					if(req.params.side == 'left' || req.params.side == 'right') {
+						response += template_reader.getHtml('error-side');
+					} else {
+						response += template_reader.getHtml('error');
+					}
+				}
+			} 
+
+			else {
+				if(api_response.statusCode) {
+					console.log(api_response.statusCode);
+				}
+				if(api_error) {
+					console.log(api_error);
+				}
+				if(req.params.side == 'left' || req.params.side == 'right') {
+					response += template_reader.getHtml('error-side');
+				} else {
+					response += template_reader.getHtml('error');
+				}
+			}
+
+			// res.send() needs to be in the request callback so the page will wait on the data
+			res.send(response);
+		});
+	}	
 });
 
 module.exports = router;

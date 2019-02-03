@@ -5,7 +5,7 @@ var firstPlayerLink = '';
 $(".player-container").toggleClass("col-xs-6 col-xs-12");
 
 // playerContainer should be passed from the autocomplete click - it should be an object for a div element with class... player-container
-// There are 3 player HTML templates - player, player-left, and player-right. Player is only used until "Compare player" is clicked
+// There are 3 player HTML templates - player, player-left, and player-right. player is only used until "Compare player" is clicked
 // After that, left or right is loaded depending on which side the search bar that is loading the player was on
 function loadPlayer(playerContainer, playerLink) {
 
@@ -113,7 +113,7 @@ function getPlayerPhoto(containerObject) {
 	}
 }
 
-// Text styling for two players being compared
+// Text styling for two players being compared, highlights better number in each category
 function comparePlayerStats() {
 	var firstPlayerStats = $(document).find(".player-stats-left").find('.stat-value');
 	var secondPlayerStats = $(document).find(".player-stats-right").find('.stat-value');
@@ -139,7 +139,8 @@ $(window).resize(function() {
   setStatsHeights();
 });
 
-// Setting elements of .player-stats equal to each other. They can be different based on how many characters are there
+// Setting elements of .player-stats heights equal to each other. 
+// They can be different based on how many characters are there so this keeps them aligned
 function setStatsHeights() {
 	var statsDivs = $(document).find(".player-stats");
   if(statsDivs.length > 1) {
