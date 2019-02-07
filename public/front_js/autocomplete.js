@@ -48,7 +48,7 @@ function autocomplete(inp, arr) {
                 inp.value = this.getElementsByTagName("input")[0].value;
             });
             b.setAttribute("class", "autocomplete-item");
-            b.setAttribute("data-link", "/player/" + playerId);
+            b.setAttribute("data-link", "/nba-lookup/player/" + playerId);
             a.appendChild(b);
           } 
           // If full/first name doesn't match the typing, check the last name
@@ -67,7 +67,7 @@ function autocomplete(inp, arr) {
                 inp.value = this.getElementsByTagName("input")[0].value;
             });
             b.setAttribute("class", "autocomplete-item");
-            b.setAttribute("data-link", "/player/" + playerId);
+            b.setAttribute("data-link", "/nba-lookup/player/" + playerId);
             a.appendChild(b);
           }
         }         
@@ -157,7 +157,7 @@ var searchInputs = $('.search-input');
 
 if(searchInputs.length > 0) {
   //if(document.getElementById("searchInput") != undefined) {
-  $.getJSON("././player-names", function(result,status) {
+  $.getJSON("/nba-lookup/player-names", function(result,status) {
     players = result;
     searchInputs.each(function() {
       autocomplete($(this).context, players);
