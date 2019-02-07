@@ -12,7 +12,7 @@ var api_options = {
 	season = 'latest';
 
 // Route for home. The page never reloads but loads other routes onto the page
-router.get('/nba-lookup', function (req, res, next) {
+router.get('/', function (req, res, next) {
 	res.set('Content-Type', 'text/html');
 	response = template_reader.getHtml('header');
 	response += template_reader.getHtml('search');
@@ -27,7 +27,7 @@ router.get('/search', function (req, res, next) {
 	res.send(response);
 });
 
-// Route for JSON object containing all current players. The front end needs names and ids which are a few layers dep in the object
+// Route for JSON object containing all current players. The front end needs names and ids which are a few layers deep in the object
 // This is used by the autocomplete.js on the front end
 router.get('/player-names', function (req, res, next) {
 	
