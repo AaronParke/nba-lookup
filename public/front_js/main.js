@@ -98,7 +98,7 @@ function getPlayerPhoto(containerObject) {
 	if(playerFirstName != undefined && playerLastName != undefined) {
 		var img = new Image();
 		if(playerFirstName == "Aaron" && playerLastName == "Parke") {
-			imgUrl = "img/parke.png"
+			imgUrl = "nba-lookup/img/parke.png"
 		}
 		else {
 			imgUrl = "https://nba-players.herokuapp.com/players/" + playerLastName + "/" + playerFirstName;
