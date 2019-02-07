@@ -10,7 +10,7 @@ app.use('*/front_js',express.static('/public/front_js'));
 app.use('*/img',express.static('/public/img'));
 
 // Send all routes to the router.js file
-app.use('/nba-lookup', router);
+app.use('/', router);
 
 // Server listens on the port
 app.listen(3000, function() {
