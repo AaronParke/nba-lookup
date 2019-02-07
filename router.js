@@ -12,7 +12,7 @@ var api_options = {
 	season = 'latest';
 
 // Route for home. The page never reloads but loads other routes onto the page
-router.get('/nba-lookup', function (req, res, next) {
+router.get('/', function (req, res, next) {
 	res.set('Content-Type', 'text/html');
 	response = template_reader.getHtml('header');
 	response += template_reader.getHtml('search');
