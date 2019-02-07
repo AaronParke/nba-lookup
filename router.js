@@ -12,7 +12,7 @@ var api_options = {
 	season = 'latest';
 
 // Route for home. The page never reloads but loads other routes onto the page
-router.get('/', function (req, res, next) {
+router.get('/nba-lookup', function (req, res, next) {
 	res.set('Content-Type', 'text/html');
 	response = template_reader.getHtml('header');
 	response += template_reader.getHtml('search');
@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
 	res.send(response);
 });
 
-router.get('/search', function (req, res, next) {
+router.get('/nba-lookup/search', function (req, res, next) {
 	res.set('Content-Type', 'text/html');
 	response = template_reader.getHtml('search');
 	res.send(response);
@@ -29,7 +29,7 @@ router.get('/search', function (req, res, next) {
 
 // Route for JSON object containing all current players. The front end needs names and ids which are a few layers dep in the object
 // This is used by the autocomplete.js on the front end
-router.get('/player-names', function (req, res, next) {
+router.get('/nba-lookup/player-names', function (req, res, next) {
 	
 	res.set('Content-Type', 'application/json');
 	response = '';	
@@ -60,7 +60,7 @@ router.get('/player-names', function (req, res, next) {
 // Route for individual player HTML. Returns current season stats for one player based on the id passed as a param.
 // This is loaded into a .player-container, which can be either one large container if it's the first player searched, 
 // or on the left or right if two players are being compared. There are different templates for each
-router.get(['/player/:player_id', '/nba-lookup/player/:player_id/:side'], function (req, res, next) {
+router.get(['/nba-lookup/player/:player_id', '/nba-lookup/player/:player_id/:side'], function (req, res, next) {
 
 	res.set('Content-Type', 'text/html');
 	response = '';
