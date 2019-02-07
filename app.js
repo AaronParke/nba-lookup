@@ -10,8 +10,8 @@ app.use('*/front_js',express.static(path.join(__dirname, 'public/front_js')));
 app.use('*/img',express.static(path.join(__dirname, 'public/img')));
 
 // Send all routes to the router.js file
-app.use(express.static(__dirname), router);
-
+app.use('/', router);
+console.log(__dirname);
 // Server listens on the port
 app.listen(3000, function() {
   console.log('App listening on port 3000');
