@@ -60,7 +60,7 @@ $(document).on("click", "#compare-player", function() {
 	var parentContainer = $(this).closest(".player-container");
 
   // Add a search, new container is included in this
-  $.get("./search", function(data) {
+  $.get("/nba-lookup/search", function(data) {
   	parentContainer.after(data);
   	addAutocomplete();
 
@@ -72,7 +72,7 @@ $(document).on("click", "#compare-player", function() {
 // Add listener to .switch-player buttons to replace player with search
 $(document).on("click", ".switch-player", function() {
 	var parentContainer = $(this).closest(".player-container");
-	$.get("./search", function(data) {
+	$.get("/nba-lookup/search", function(data) {
   	parentContainer = parentContainer.replaceWith(data);
   	addAutocomplete();
   	parentContainer.toggleClass("col-sm-12 col-sm-6");
