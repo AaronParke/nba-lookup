@@ -157,7 +157,7 @@ var searchInputs = $('.search-input');
 
 if(searchInputs.length > 0) {
   //if(document.getElementById("searchInput") != undefined) {
-  $.getJSON("././player-names", function(result,status) {
+  $.getJSON("/nba-lookup/player-names", function(result,status) {
     players = result;
     searchInputs.each(function() {
       autocomplete($(this).context, players);
