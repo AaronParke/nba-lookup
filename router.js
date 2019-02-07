@@ -29,7 +29,7 @@ router.get('/search', function (req, res, next) {
 
 // Route for JSON object containing all current players. The front end needs names and ids which are a few layers dep in the object
 // This is used by the autocomplete.js on the front end
-router.get('/player-names', function (req, res, next) {
+router.get('/nba-lookup/player-names', function (req, res, next) {
 	
 	res.set('Content-Type', 'application/json');
 	response = '';	
