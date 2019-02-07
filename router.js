@@ -60,7 +60,7 @@ router.get('/nba-lookup/player-names', function (req, res, next) {
 // Route for individual player HTML. Returns current season stats for one player based on the id passed as a param.
 // This is loaded into a .player-container, which can be either one large container if it's the first player searched, 
 // or on the left or right if two players are being compared. There are different templates for each
-router.get(['/player/:player_id', '/player/:player_id/:side'], function (req, res, next) {
+router.get(['/nba-lookup/player/:player_id', '/nba-lookup/player/:player_id/:side'], function (req, res, next) {
 
 	res.set('Content-Type', 'text/html');
 	response = '';
