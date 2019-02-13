@@ -144,6 +144,11 @@ body{
 	border-color: #C9082A;
 }
 
+#autocomplete-list {
+	max-height: 300px;
+	overflow-y: scroll;
+}
+
 /* Bootstrap small */
 @media (min-width: 576px) { 
 	.footer-text {
