@@ -135,6 +135,13 @@ body{
 
 .btn {
 	margin-bottom: 10px;
+	background-color: #17408B;
+	border-color: #17408B;
+}
+
+.btn:hover {
+	background-color: #C9082A;
+	border-color: #C9082A;
 }
 
 /* Bootstrap small */
